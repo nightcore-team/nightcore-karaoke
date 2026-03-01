@@ -11,6 +11,7 @@ from discord import app_commands
 from discord.ext.commands import Bot  # type: ignore
 
 from src.bot.utils.log.on_ready_log import log_tree_summary
+from src.config._global import config
 
 logger = logging.getLogger(__name__)
 
@@ -59,6 +60,12 @@ class CustomBot(Bot):
             force_close=False,  # Don't close connection after each request  # noqa: E501
             keepalive_timeout=60,  # Keep connection alive for 60 seconds
         )
+
+    async def startup(self):
+        """Run the bot with graceful shutdown via async context manager."""
+
+        async with self:
+            await self.start(config.bot.BOT_TOKEN)
 
     async def load_extensions(self) -> None:
         """Load all bot extensions (cogs)."""

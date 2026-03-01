@@ -1,26 +1,36 @@
 """Main entry point for the Nightcore bot."""
 
+import asyncio
+import signal
+
 from src.bot.setup import create_bot
-from src.config._global import config
-from src.config.env import ENV_PATH
-from src.utils.logging.setup import setup_logging
+from src.utils.logging.setup import setup_logging, stop_logging
 
 
-def main() -> None:
+async def main():
     """Main function to start the Nightcore bot."""
-    logger, discord_logger = setup_logging()
+    logger = setup_logging()
     bot = create_bot()
 
-    logger.info("Starting bot...")
-    logger.info("Loading environment variables from: %s", ENV_PATH)
+    bot_task = asyncio.create_task(bot.startup())
 
+    loop = asyncio.get_running_loop()
+    loop.add_signal_handler(
+        signal.SIGTERM,
+        lambda: bot_task.cancel(),
+    )
+
+    logger.info("Starting Nightcore bot...")
     try:
-        bot.run(config.bot.BOT_TOKEN, log_handler=discord_logger.handlers[0])
+        await bot_task
+    except asyncio.CancelledError:
+        pass
     except Exception as e:
         logger.error("Error occurred: %s", e)
     finally:
-        logger.info("Bot has been stopped.")
+        logger.info("Nightcore bot has been stopped.")
+        stop_logging()
 
 
 if __name__ == "__main__":
-    main()
+    asyncio.run(main())
