@@ -4,14 +4,15 @@ To enable/disable features, comment out or remove them from the
 ENABLED_FEATURES list.
 """
 
-from src.bot.client import CustomBot
+from src.bot.client import NightcoreKaraoke
 from src.bot.events import get_cogs as get_event_cogs
 from src.bot.features.meta.setup import get_cogs as get_meta_cogs
 from src.bot.tasks import get_cogs as get_task_cogs
+from src.infra.db.uow import UnitOfWork
 
 
-def create_bot() -> CustomBot:
-    """Create and return an instance of the CustomBot."""
+def create_bot(uow: UnitOfWork) -> NightcoreKaraoke:
+    """Create and return an instance of the NightcoreKaraoke."""
 
     # ============================================
     # FEATURE CONFIGURATION
@@ -58,4 +59,4 @@ def create_bot() -> CustomBot:
     if enabled_cog_categories.get("tasks", False):
         cog_modules.extend(get_task_cogs())
 
-    return CustomBot(cog_modules=cog_modules)
+    return NightcoreKaraoke(cog_modules=cog_modules, uow=uow)

@@ -3,6 +3,7 @@
 from functools import cached_property
 
 from src.bot.config import Config as BotConfig
+from src.infra.db.config import Config as DbConfig
 
 
 class Config:
@@ -12,6 +13,11 @@ class Config:
     def bot(self) -> BotConfig:
         """Return the bot configuration settings."""
         return BotConfig()  # type: ignore[call-arg]
+
+    @cached_property
+    def db(self) -> DbConfig:
+        """Return the database configuration settings."""
+        return DbConfig()  # type: ignore[call-arg]
 
 
 config = Config()

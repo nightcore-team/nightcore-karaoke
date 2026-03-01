@@ -4,13 +4,17 @@ import asyncio
 import signal
 
 from src.bot.setup import create_bot
+from src.config._global import config
+from src.infra.db.session import get_async_sessionmaker
+from src.infra.db.uow import UnitOfWork
 from src.utils.logging.setup import setup_logging, stop_logging
 
 
 async def main():
     """Main function to start the Nightcore bot."""
     logger = setup_logging()
-    bot = create_bot()
+    uow = UnitOfWork(get_async_sessionmaker(config.db.ENGINE))  # type: ignore
+    bot = create_bot(uow=uow)
 
     bot_task = asyncio.create_task(bot.startup())
 

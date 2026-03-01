@@ -12,6 +12,7 @@ from discord.ext.commands import Bot  # type: ignore
 
 from src.bot.utils.log.on_ready_log import log_tree_summary
 from src.config._global import config
+from src.infra.db.uow import UnitOfWork
 
 logger = logging.getLogger(__name__)
 
@@ -33,15 +34,17 @@ class GuildOnlyTree(app_commands.CommandTree):
         return True
 
 
-class CustomBot(Bot):
+class NightcoreKaraoke(Bot):
     """Custom bot class that extends discord.ext.commands.Bot with additional functionality."""  # noqa: E501
 
     def __init__(
         self,
         *,
         cog_modules: list[str],
+        uow: UnitOfWork,
     ):
         self.cog_modules = cog_modules
+        self.uow = uow
 
         super().__init__(
             command_prefix=".",
