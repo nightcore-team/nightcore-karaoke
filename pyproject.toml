@@ -1,7 +1,7 @@
 [project]
-name = "discord-bot-template"
+name = "nightcore-karaoke"
 version = "0.1.0"
-description = "A template for quickly starting a new Discord bot project."
+description = "A Nightcore bot with karaoke system specially for Arizona Role Play Holiday"
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
