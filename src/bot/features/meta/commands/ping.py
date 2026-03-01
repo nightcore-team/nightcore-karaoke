@@ -3,15 +3,15 @@
 from typing import TYPE_CHECKING
 
 from discord import app_commands
-from discord.ext.commands import Cog
+from discord.ext.commands import Cog  # type: ignore
 from discord.interactions import Interaction
 
 if TYPE_CHECKING:
-    from src.bot.client import CustomBot
+    from src.bot.client import NightcoreKaraoke
 
 
 class Ping(Cog):
-    def __init__(self, bot: "CustomBot") -> None:
+    def __init__(self, bot: "NightcoreKaraoke") -> None:
         self.bot = bot
 
     @app_commands.command(name="ping", description="Check the bot's latency.")
@@ -23,6 +23,6 @@ class Ping(Cog):
         )
 
 
-async def setup(bot: "CustomBot") -> None:
+async def setup(bot: "NightcoreKaraoke") -> None:
     """Setup the Ping cog."""
     await bot.add_cog(Ping(bot))
