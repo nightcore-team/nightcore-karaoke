@@ -1,5 +1,5 @@
-## 0.1.0 (2026-02-18)
+## 0.0.1 (2026-03-01)
 
-### Feat
+### Refactor
 
-- **init**: restructure project for Discord bot development
+- refactor logging to use queue and change bot startup way
