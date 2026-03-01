@@ -8,7 +8,7 @@ from datetime import datetime, timezone
 import discord
 from aiohttp import TCPConnector
 from discord import app_commands
-from discord.ext.commands import Bot
+from discord.ext.commands import Bot  # type: ignore
 
 from src.bot.utils.log.on_ready_log import log_tree_summary
 
