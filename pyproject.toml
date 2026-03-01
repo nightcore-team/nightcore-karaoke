@@ -1,0 +1,103 @@
+[project]
+name = "discord-bot-template"
+version = "0.1.0"
+description = "A template for quickly starting a new Discord bot project."
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "aiohttp>=3.13.3",
+    "colorlog>=6.10.1",
+    "discord-py>=2.6.4",
+    "environs>=14.2.0",
+    "pydantic-settings>=2.13.0",
+]
+
+[dependency-groups]
+dev = [
+    "commitizen>=4.13.7",
+    "mypy>=1.16.0",
+    "pre-commit>=4.2.0",
+    "ruff>=0.11.11",
+]
+
+# ================================= RUFF
+[tool.ruff]
+# Line length according to PEP 8 - 79 characters
+line-length = 79
+
+# Target Python version
+target-version = "py310"
+
+exclude = [".venv", "venv", "__pycache__", "migrations", "build", "dist"]
+
+[tool.ruff.lint]
+# Enable rules
+select = [
+    "E",   # pycodestyle errors
+    "W",   # pycodestyle warnings
+    "F",   # pyflakes
+    "N",   # pep8-naming
+    "D",   # pydocstyle
+    "UP",  # pyupgrade
+    "I",   # isort
+    "B",   # flake8-bugbear
+    "C4",  # flake8-comprehensions
+    "SIM", # flake8-simplify
+    "RUF", # Ruff-specific rules
+]
+
+# Ignore rules
+ignore = ["D202", "D212", "D104", "D101", "D107", "RUF001", "RUF006"]
+
+# Allow unused variables if they start with an underscore
+dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
+
+# Docstring handling
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+# Settings for isort
+[tool.ruff.lint.isort]
+known-first-party = ["src"]
+section-order = [
+    "future",
+    "standard-library",
+    "third-party",
+    "first-party",
+    "local-folder",
+]
+
+# Formatting options
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+line-ending = "auto"
+
+[tool.pyright]
+include = ["src"]
+pythonVersion = "3.10"
+typeCheckingMode = "strict"
+
+# ================================= MYPY
+[tool.mypy]
+strict = true                 # Enable strict type checking
+explicit_package_bases = true
+ignore_missing_imports = true # Ignore missing imports for third-party libraries
+
+[[tool.mypy.overrides]]
+module = ["discord.*", "discord", "aiohttp.*"]
+ignore_missing_imports = true
+ignore_errors = true
+
+# ================================= COMMITIZEN
+[tool.commitizen]
+name = "cz_conventional_commits"
+tag_format = "$version"
+version_scheme = "semver2"
+version_provider = "uv"
+update_changelog_on_bump = true
+
+# ================================= PYTEST
+[tool.pytest.ini_options]
+# Use the default event loop policy for async tests
+asyncio_default_fixture_loop_scope = "function"

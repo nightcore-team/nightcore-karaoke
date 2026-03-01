@@ -1,0 +1,30 @@
+repos:
+- repo: https://github.com/astral-sh/ruff-pre-commit
+  rev: v0.15.1
+  hooks:
+    # Run the linter.
+    - id: ruff-check
+      args: [ --config=pyproject.toml ]
+      files: ^src/
+
+    # Run the formatter.
+    - id: ruff-format
+      args: [ --config=pyproject.toml ]
+      files: ^src/
+
+- repo: https://github.com/pre-commit/mirrors-mypy
+  rev: v1.19.1
+  hooks:
+    # Run mypy type checking.
+    - id: mypy
+      args: [--config-file=pyproject.toml ]
+      files: ^src/
+      additional_dependencies:
+        - discord.py>=2.6.4
+        - pydantic-settings>=2.13.0
+
+- repo: https://github.com/commitizen-tools/commitizen
+  rev: v4.13.8
+  hooks:
+    - id: commitizen
+      stages: [commit-msg]
