@@ -1,3 +1,9 @@
+## 0.2.0 (2026-03-02)
+
+### Feat
+
+- **db**: implement database structure
+
 ## 0.1.0 (2026-03-01)
 
 ### Feat
