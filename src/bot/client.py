@@ -7,7 +7,7 @@ from datetime import datetime, timezone
 
 import discord
 from aiohttp import TCPConnector
-from discord import app_commands
+from discord import ClientUser, app_commands
 from discord.ext.commands import Bot  # type: ignore
 
 from src.bot.utils.log.on_ready_log import log_tree_summary
@@ -53,6 +53,11 @@ class NightcoreKaraoke(Bot):
             tree_cls=GuildOnlyTree,
         )
         self.startup_time: datetime = datetime.now(timezone.utc)
+
+    @property
+    def user(self) -> ClientUser:
+        """Override user property to ensure it is always a ClientUser instance."""  # noqa: E501
+        return self.user
 
     @property
     def _http_connector(self) -> TCPConnector:
