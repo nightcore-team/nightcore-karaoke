@@ -15,7 +15,7 @@ class Ping(Cog):
         self.bot = bot
 
     @app_commands.command(name="ping", description="Check the bot's latency.")
-    async def ping(self, interaction: Interaction) -> None:
+    async def ping(self, interaction: Interaction["NightcoreKaraoke"]) -> None:
         """Send a message displaying the bot's current latency."""
 
         await interaction.response.send_message(
