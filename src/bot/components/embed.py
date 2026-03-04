@@ -19,3 +19,27 @@ class NoOptionsSuppliedEmbed(Embed):
         self.set_footer(
             text=bot.user.name, icon_url=bot.user.display_avatar.url
         )
+
+
+class ErrorEmbed(Embed):
+    def __init__(self, bot: "NightcoreKaraoke", error_message: str) -> None:
+        super().__init__(
+            title="Ошибка",
+            description=error_message,
+            color=Color.red(),
+        )
+        self.set_footer(
+            text=bot.user.name, icon_url=bot.user.display_avatar.url
+        )
+
+
+class SuccessEmbed(Embed):
+    def __init__(self, bot: "NightcoreKaraoke", message: str) -> None:
+        super().__init__(
+            title="Успешно",
+            description=message,
+            color=Color.green(),
+        )
+        self.set_footer(
+            text=bot.user.name, icon_url=bot.user.display_avatar.url
+        )
