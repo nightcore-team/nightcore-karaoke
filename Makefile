@@ -1,5 +1,5 @@
-DOCKER_CONTAINER_NAME=bot
-DOCKER_PROJECT_NAME=discord-bot-template
+DOCKER_CONTAINER_NAME=nightcore-karaoke-bot
+DOCKER_PROJECT_NAME=nightcore-karaoke
 DOCKER_IMAGE_TAG=latest
 
 d = docker
@@ -29,12 +29,6 @@ typecheck: ## Run the type checker
 
 dev-logs: ## View development container logs
 	$(d) logs -f $(DOCKER_CONTAINER_NAME)
-
-dev-exec: ## Execute a command in the development container
-	$(d) exec -it $(DOCKER_CONTAINER_NAME) /bin/bash
-
-dev-bash: ## Start a bash session in the development container
-	$(d) run --rm -it --env-file .env $(DOCKER_PROJECT_NAME):$(DOCKER_IMAGE_TAG) /bin/bash
 
 dev-build: ## Build the development container
 	$(dc) --env-file=.env build

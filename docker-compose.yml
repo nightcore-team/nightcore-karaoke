@@ -1,14 +1,15 @@
-name: python-boilerplate
+name: nightcore-karaoke
 
 networks:
   project-network:
-    name: ${DOCKER_NETWORK_NAME}
+    name: nightcore-karaoke-network
     driver: bridge
+    external: true
 
 services:
-  bot:
-    image: ${DOCKER_PROJECT_NAME}:${DOCKER_IMAGE_TAG}
-    container_name: ${DOCKER_CONTAINER_NAME}
+  nightcore-karaoke-bot:
+    image: nightcore-karaoke-bot:latest
+    container_name: nightcore-karaoke-bot
     build:
       context: .
       dockerfile: Dockerfile
@@ -30,7 +31,7 @@ services:
           path: ./app/pyproject.toml
 
     ports:
-      - "${DOCKER_PORT}:${DOCKER_PORT}"
+      - "${BOT_PORT}:${BOT_PORT}"
     restart: on-failure
 
     volumes:
@@ -38,18 +39,23 @@ services:
     networks:
       - project-network
 
-  nightcore-db:
+  nightcore-karaoke-db:
     image: postgres:16-alpine
     container_name: nightcore-karaoke-db
     restart: no
     env_file:
       - .env
 
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+
     ports:
       - "${POSTGRES_PORT}:${POSTGRES_PORT}"
 
     healthcheck:
-      test: [ "CMD-SHELL", "pg_isready --username=nightcore --dbname=nightcore" ]
+      test: [ "CMD-SHELL", "pg_isready --username=${POSTGRES_USER} --dbname=${POSTGRES_DB}" ]
       interval: 5s
       timeout: 3s
       retries: 5
