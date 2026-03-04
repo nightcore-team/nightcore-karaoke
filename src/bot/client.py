@@ -54,10 +54,7 @@ class NightcoreKaraoke(Bot):
         )
         self.startup_time: datetime = datetime.now(timezone.utc)
 
-    @property
-    def user(self) -> ClientUser:
-        """Override user property to ensure it is always a ClientUser instance."""  # noqa: E501
-        return self.user
+    user: ClientUser  # type: ignore
 
     @property
     def _http_connector(self) -> TCPConnector:
