@@ -7,6 +7,7 @@ ENABLED_FEATURES list.
 from src.bot.client import NightcoreKaraoke
 from src.bot.events import get_cogs as get_event_cogs
 from src.bot.features.config import get_cogs as get_config_cogs
+from src.bot.features.karaoke import get_cogs as get_karaoke_cogs
 from src.bot.features.meta import get_cogs as get_meta_cogs
 from src.bot.features.system import get_cogs as get_system_cogs
 from src.bot.tasks import get_cogs as get_task_cogs
@@ -24,6 +25,7 @@ def create_bot(uow: UnitOfWork) -> NightcoreKaraoke:
         "meta": True,  # Core commands (ping, info, etc.)
         "config": True,
         "system": True,  # System configuration commands (access, etc.)
+        "karaoke": True,
         # Add more features here as you create them
         # "moderation": True,
         # "music": True,
@@ -55,12 +57,8 @@ def create_bot(uow: UnitOfWork) -> NightcoreKaraoke:
     if enabled_features.get("system", False):
         cog_modules.extend(get_system_cogs())
 
-    # Add more features here
-    # if enabled_features.get("moderation", False):
-    #     from src.bot.features.moderation.setup import (
-    #         get_cogs as get_moderation_cogs
-    #     )
-    #     cog_modules.extend(get_moderation_cogs())
+    if enabled_features.get("karaoke", False):
+        cog_modules.extend(get_karaoke_cogs())
 
     # Load other cog categories
     if enabled_cog_categories.get("events", False):
