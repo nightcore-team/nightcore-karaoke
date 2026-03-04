@@ -1,3 +1,13 @@
+## 0.4.0 (2026-03-04)
+
+### Feat
+
+- **setup**: integrate karaoke feature into bot
+- **karaoke**: add setstaff command for managing karaoke roles
+- **db**: add karaoke staff management operations
+- **utils**: add ensure_role_exists utility function
+- **embed**: add ErrorEmbed and SuccessEmbed classes
+
 ## 0.3.0 (2026-03-03)
 
 ### Feat
