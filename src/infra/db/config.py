@@ -31,7 +31,6 @@ class Config(BaseEnvConfig):
         validation_alias=AliasChoices(
             "POSTGRES_DATABASE_URI",
             "DATABASE_URL",
-            "RAILWAY_DATABASE_URL",
             "POSTGRES_URL",
         ),
     )
