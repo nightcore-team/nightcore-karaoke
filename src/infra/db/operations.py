@@ -34,6 +34,19 @@ async def get_permissions_config(
     return result.scalar_one_or_none()
 
 
+async def get_karaoke_config_access_roles(
+    session: AsyncSession, guild_id: int
+) -> list[int] | None:
+    """Fetch the karaoke config access roles for a specific guild."""
+
+    result = await session.execute(
+        select(GuildPermissionsConfig.karaoke_config_access_roles_ids).where(
+            GuildPermissionsConfig.guild_id == guild_id
+        )
+    )
+    return result.scalar_one_or_none()
+
+
 async def get_user_staff_role(
     session: AsyncSession, guild_id: int, user_id: int
 ) -> KaraokeRoleEnum | None:
@@ -47,3 +60,52 @@ async def get_user_staff_role(
 
     result = result.scalar_one_or_none()
     return result.role if result else None
+
+
+async def create_staff(
+    session: AsyncSession, guild_id: int, user_id: int, role: KaraokeRoleEnum
+) -> Staff:
+    """Create a staff member in the database."""
+
+    staff = Staff(guild_id=guild_id, user_id=user_id, role=role)
+    session.add(staff)
+
+    return staff
+
+
+async def update_staff_role(
+    session: AsyncSession, guild_id: int, user_id: int, role: KaraokeRoleEnum
+) -> Staff | None:
+    """Update staff role for an existing guild user binding."""
+
+    result = await session.execute(
+        select(Staff).where(
+            Staff.guild_id == guild_id, Staff.user_id == user_id
+        )
+    )
+
+    staff = result.scalar_one_or_none()
+    if staff is None:
+        return None
+
+    staff.role = role
+    return staff
+
+
+async def delete_staff(
+    session: AsyncSession, guild_id: int, user_id: int
+) -> bool:
+    """Delete staff binding for a guild user."""
+
+    result = await session.execute(
+        select(Staff).where(
+            Staff.guild_id == guild_id, Staff.user_id == user_id
+        )
+    )
+
+    staff = result.scalar_one_or_none()
+    if staff is None:
+        return False
+
+    await session.delete(staff)
+    return True
