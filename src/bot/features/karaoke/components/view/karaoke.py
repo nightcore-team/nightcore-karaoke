@@ -84,10 +84,19 @@ class KaraokeView(LayoutView):
             buttons.add_item(
                 Button(
                     label="Зарегистрироваться",
-                    custom_id="karaoke:register",
+                    custom_id=f"karaoke:register:{self.karaoke_id}",
                     style=ButtonStyle.secondary,
                     emoji="<:pets:1480954494354194473>",
-                    disabled=disable_buttons,
+                ),
+            )
+
+        if self.karaoke_state.lower() == "завершено":
+            buttons.add_item(
+                Button(
+                    label="Результаты участников",
+                    custom_id=f"karaoke:results:{self.karaoke_id}",
+                    style=ButtonStyle.secondary,
+                    emoji="<:vote:1480954494354194473>",
                 ),
             )
 

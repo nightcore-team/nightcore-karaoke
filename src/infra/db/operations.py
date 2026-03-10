@@ -6,7 +6,13 @@ from sqlalchemy.orm import selectinload
 
 from src.infra.db.enums import KaraokeRoleEnum, KaraokeStateEnum
 
-from .models import GuildKaraokeConfig, GuildPermissionsConfig, Karaoke, Staff
+from .models import (
+    GuildKaraokeConfig,
+    GuildPermissionsConfig,
+    Karaoke,
+    Registration,
+    Staff,
+)
 
 
 async def get_karaoke_config(
@@ -164,3 +170,25 @@ async def create_karaoke(
     session.add(karaoke)
 
     return karaoke
+
+
+async def create_karaoke_registration(
+    session: AsyncSession,
+    guild_id: int,
+    karaoke_id: int,
+    user_id: int,
+    song_artist: str,
+    song_title: str,
+) -> Registration:
+    """Create a karaoke registration for a specific karaoke."""
+
+    registration = Registration(
+        guild_id=guild_id,
+        karaoke_id=karaoke_id,
+        user_id=user_id,
+        song_artist=song_artist,
+        song_title=song_title,
+    )
+    session.add(registration)
+
+    return registration

@@ -7,7 +7,7 @@ from discord import Interaction
 from src.bot.components.embed import ErrorEmbed
 from src.infra.db.operations import get_karaoke_by_id
 
-from ..components import KaraokePariticipantsListView
+from ..components import KaraokePariticipantsListView, KaraokeRegistrationModal
 
 if TYPE_CHECKING:
     from src.bot.client import NightcoreKaraoke
@@ -44,3 +44,13 @@ async def handle_participants_button(
         view = KaraokePariticipantsListView(participants=participants)
 
         return await interaction.followup.send(view=view, ephemeral=True)
+
+
+async def handle_registration_button(
+    interaction: Interaction["NightcoreKaraoke"], karaoke_id: int
+):
+    """Handle the registration button interaction."""
+
+    await interaction.response.send_modal(
+        KaraokeRegistrationModal(karaoke_id=karaoke_id)
+    )

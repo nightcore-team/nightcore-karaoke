@@ -4,7 +4,8 @@ from typing import TYPE_CHECKING
 
 from discord import Interaction
 
-from .button import handle_participants_button
+from .button import handle_participants_button, handle_registration_button
+from .modal import handle_registration_modal_submit
 
 if TYPE_CHECKING:
     from src.bot.client import NightcoreKaraoke
@@ -20,15 +21,22 @@ async def global_karaoke_handler(
     if len(custom_id_parts) == 3:
         _, category, karaoke_id = custom_id_parts
 
-        match category:
-            case "participants":
-                if karaoke_id.isdigit():
+        if karaoke_id.isdigit():
+            match category:
+                case "participants":
                     await handle_participants_button(
                         interaction, int(karaoke_id)
                     )
 
-            case "results":
-                ...
+                case "register":
+                    await handle_registration_button(
+                        interaction, int(karaoke_id)
+                    )
 
-            case _:
-                ...
+                case "register_modal":
+                    await handle_registration_modal_submit(
+                        interaction, int(karaoke_id)
+                    )
+
+                case _:
+                    ...

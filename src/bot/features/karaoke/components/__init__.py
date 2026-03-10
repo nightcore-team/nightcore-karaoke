@@ -1,3 +1,4 @@
+from .modal import KaraokeRegistrationModal
 from .view import (
     KaraokePariticipantsListView,
     KaraokeRegistrationView,
@@ -6,6 +7,7 @@ from .view import (
 
 __all__ = (
     "KaraokePariticipantsListView",
+    "KaraokeRegistrationModal",
     "KaraokeRegistrationView",
     "KaraokeView",
 )
