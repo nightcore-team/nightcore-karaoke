@@ -3,9 +3,9 @@
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from src.infra.db.enums import KaraokeRoleEnum
+from src.infra.db.enums import KaraokeRoleEnum, KaraokeStateEnum
 
-from .models import GuildKaraokeConfig, GuildPermissionsConfig, Staff
+from .models import GuildKaraokeConfig, GuildPermissionsConfig, Karaoke, Staff
 
 
 async def get_karaoke_config(
@@ -109,3 +109,40 @@ async def delete_staff(
 
     await session.delete(staff)
     return True
+
+
+async def get_karaoke(session: AsyncSession, guild_id: int) -> Karaoke | None:
+    """Get a karaoke for a specific guild."""
+
+    result = await session.execute(
+        select(Karaoke)
+        .where(
+            Karaoke.guild_id == guild_id,
+            Karaoke.state != KaraokeStateEnum.FINISHED,
+        )
+        .order_by(Karaoke.updated_at.desc())
+        .limit(1)
+    )
+    return result.scalar_one_or_none()
+
+
+async def create_karaoke(
+    session: AsyncSession,
+    guild_id: int,
+    host_id: int,
+    name: str,
+    description: str | None,
+    prizes: list[str] | None,
+) -> Karaoke:
+    """Create a karaoke for a specific guild."""
+
+    karaoke = Karaoke(
+        guild_id=guild_id,
+        host_id=host_id,
+        name=name,
+        description=description,
+        prizes=prizes,
+    )
+    session.add(karaoke)
+
+    return karaoke
