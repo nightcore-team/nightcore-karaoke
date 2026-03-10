@@ -1,4 +1,4 @@
-"""Configuration commands group."""
+"""Configuration commands groups."""
 
 from discord import app_commands
 

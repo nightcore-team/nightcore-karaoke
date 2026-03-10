@@ -12,7 +12,6 @@ from src.bot.decorators.permissions import (
     PermissionFlagEnum,
     check_required_permissions,
 )
-from src.bot.features.config._group import config as config_group
 from src.bot.features.config.utils.validator import (
     FieldSpec,
     apply_field_changes,
@@ -22,6 +21,8 @@ from src.bot.features.config.utils.validator import (
 )
 from src.infra.db.models import GuildKaraokeConfig
 from src.infra.db.operations import get_karaoke_config
+
+from .._group import config as config_group
 
 if TYPE_CHECKING:
     from src.bot.client import NightcoreKaraoke
