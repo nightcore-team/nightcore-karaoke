@@ -12,6 +12,7 @@ COGS: Final[list[str]] = [
     # "src.bot.events.on_message",
     # "src.bot.events.on_member_join",
     # "src.bot.events.on_error",
+    "src.bot.events.error",
 ]
 
 
