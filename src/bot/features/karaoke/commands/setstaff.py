@@ -41,6 +41,7 @@ class SetStaff(Cog):
             app_commands.Choice(name="Судья", value="judge"),
         ]
     )
+    @app_commands.rename(user="пользователь", role="роль")
     @check_required_permissions(PermissionFlagEnum.UNSAFE)  # type: ignore
     async def set_staff(
         self,
@@ -127,7 +128,8 @@ class SetStaff(Cog):
                 embed=ErrorEmbed(
                     interaction.client,
                     "Роли доступа не настроены. Пожалуйста, настройте роли доступа и попробуйте снова.",  # noqa: E501
-                )
+                ),
+                ephemeral=True,
             )
 
         elif outcome == "missing_permissions":
@@ -206,6 +208,7 @@ class SetStaff(Cog):
                     interaction.client,
                     message,
                 ),
+                ephemeral=True,
             )
 
 
