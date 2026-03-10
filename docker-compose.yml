@@ -4,7 +4,6 @@ networks:
   project-network:
     name: nightcore-karaoke-network
     driver: bridge
-    external: true
 
 services:
   nightcore-karaoke-bot:
@@ -36,6 +35,7 @@ services:
 
     volumes:
       - ./src/:/app/src/
+      - ./migrations/:/app/migrations/
     networks:
       - project-network
 
