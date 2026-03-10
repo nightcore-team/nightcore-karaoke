@@ -3,7 +3,8 @@
 from datetime import datetime
 from typing import TYPE_CHECKING
 
-from sqlalchemy import DateTime, Enum, Index, String, text
+from sqlalchemy import BigInteger, DateTime, Enum, Index, String, text
+from sqlalchemy.dialects.postgresql import ARRAY
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from src.infra.db.enums import KaraokeRegistrationStateEnum, KaraokeStateEnum
@@ -27,8 +28,12 @@ class Karaoke(BaseIdTimeStampModel, GuildIdMixin):
         ),
     )
 
+    host_id: Mapped[int] = mapped_column(BigInteger, nullable=False)
     name: Mapped[str] = mapped_column(String(255), nullable=False)
     description: Mapped[str | None] = mapped_column(String(255), nullable=True)
+    prizes: Mapped[list[str] | None] = mapped_column(
+        ARRAY(String(255)), nullable=True
+    )
     state: Mapped[KaraokeStateEnum] = mapped_column(
         Enum(
             KaraokeStateEnum,
@@ -37,6 +42,7 @@ class Karaoke(BaseIdTimeStampModel, GuildIdMixin):
             validate_strings=True,
         ),
         nullable=False,
+        default=KaraokeStateEnum.ANNOUNCED,
     )
     registration_state: Mapped[KaraokeRegistrationStateEnum] = mapped_column(
         Enum(
@@ -46,7 +52,10 @@ class Karaoke(BaseIdTimeStampModel, GuildIdMixin):
             validate_strings=True,
         ),
         nullable=False,
+        default=KaraokeRegistrationStateEnum.CLOSED,
     )
+    message_id: Mapped[int | None] = mapped_column(BigInteger, nullable=True)
+    channel_id: Mapped[int | None] = mapped_column(BigInteger, nullable=True)
     end_time: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), nullable=True
     )

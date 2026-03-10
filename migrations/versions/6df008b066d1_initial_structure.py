@@ -1,18 +1,18 @@
 """initial structure
 
-Revision ID: 2b50a1eda0df
+Revision ID: 6df008b066d1
 Revises: 
-Create Date: 2026-03-04 16:02:45.307820
+Create Date: 2026-03-10 17:55:58.291162
 
 """
 from typing import Sequence, Union
 
 from alembic import op
 import sqlalchemy as sa
-
+from sqlalchemy.dialects import postgresql
 
 # revision identifiers, used by Alembic.
-revision: str = '2b50a1eda0df'
+revision: str = '6df008b066d1'
 down_revision: Union[str, Sequence[str], None] = None
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
@@ -39,10 +39,14 @@ def upgrade() -> None:
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('karaoke',
+    sa.Column('host_id', sa.BigInteger(), nullable=False),
     sa.Column('name', sa.String(length=255), nullable=False),
     sa.Column('description', sa.String(length=255), nullable=True),
-    sa.Column('state', sa.Enum('announced', 'going', 'finished', name='karaokestateenum', native_enum=False), nullable=False),
-    sa.Column('registration_state', sa.Enum('open', 'closed', name='karaokeregistrationstateenum', native_enum=False), nullable=False),
+    sa.Column('prizes', postgresql.ARRAY(sa.String(length=255)), nullable=True),
+    sa.Column('state', sa.Enum('Анонсировано', 'Идет', 'Завершено', name='karaokestateenum', native_enum=False), nullable=False),
+    sa.Column('registration_state', sa.Enum('Открыта', 'Закрыта', name='karaokeregistrationstateenum', native_enum=False), nullable=False),
+    sa.Column('message_id', sa.BigInteger(), nullable=True),
+    sa.Column('channel_id', sa.BigInteger(), nullable=True),
     sa.Column('end_time', sa.DateTime(timezone=True), nullable=True),
     sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
     sa.Column('created_at', sa.DateTime(timezone=True), nullable=False),

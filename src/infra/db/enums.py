@@ -14,16 +14,16 @@ class StrEnum(str, Enum):
 class KaraokeStateEnum(StrEnum):
     """Karaoke status enum."""
 
-    ANNOUNCED = "announced"
-    GOING = "going"
-    FINISHED = "finished"
+    ANNOUNCED = "Анонсировано"
+    GOING = "Идет"
+    FINISHED = "Завершено"
 
 
 class KaraokeRegistrationStateEnum(StrEnum):
     """Karaoke registration status enum."""
 
-    OPEN = "open"
-    CLOSED = "closed"
+    OPEN = "Открыта"
+    CLOSED = "Закрыта"
 
 
 class KaraokeRoleEnum(StrEnum):
