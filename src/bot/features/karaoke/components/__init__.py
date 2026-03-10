@@ -1,3 +1,11 @@
-from .view import KaraokeRegistrationView, KaraokeView
+from .view import (
+    KaraokePariticipantsListView,
+    KaraokeRegistrationView,
+    KaraokeView,
+)
 
-__all__ = ("KaraokeRegistrationView", "KaraokeView")
+__all__ = (
+    "KaraokePariticipantsListView",
+    "KaraokeRegistrationView",
+    "KaraokeView",
+)
