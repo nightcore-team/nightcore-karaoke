@@ -20,7 +20,7 @@ from src.bot.utils.object import (
     ensure_messageable_channel_exists,
 )
 from src.infra.db.enums import KaraokeRegistrationStateEnum
-from src.infra.db.operations import get_karaoke
+from src.infra.db.operations import get_karaoke_by_guild_id
 from src.infra.db.utils import cast_karaoke_model
 
 from .._group import registration as registration_group
@@ -59,7 +59,7 @@ async def announce(
 
     outcome = ""
     async with interaction.client.uow.start() as session:
-        karaoke = await get_karaoke(session, guild.id)
+        karaoke = await get_karaoke_by_guild_id(session, guild.id)
 
         if not karaoke:
             outcome = "karaoke_not_found"

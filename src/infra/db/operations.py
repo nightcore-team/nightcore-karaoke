@@ -2,6 +2,7 @@
 
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy.orm import selectinload
 
 from src.infra.db.enums import KaraokeRoleEnum, KaraokeStateEnum
 
@@ -111,7 +112,9 @@ async def delete_staff(
     return True
 
 
-async def get_karaoke(session: AsyncSession, guild_id: int) -> Karaoke | None:
+async def get_karaoke_by_guild_id(
+    session: AsyncSession, guild_id: int
+) -> Karaoke | None:
     """Get a karaoke for a specific guild."""
 
     result = await session.execute(
@@ -123,6 +126,21 @@ async def get_karaoke(session: AsyncSession, guild_id: int) -> Karaoke | None:
         .order_by(Karaoke.updated_at.desc())
         .limit(1)
     )
+    return result.scalar_one_or_none()
+
+
+async def get_karaoke_by_id(
+    session: AsyncSession, karaoke_id: int, with_registrations: bool = False
+) -> Karaoke | None:
+    """Get a karaoke by its ID."""
+
+    stmt = select(Karaoke).where(Karaoke.id == karaoke_id)
+
+    if with_registrations:
+        stmt = stmt.options(selectinload(Karaoke.registrations))
+
+    result = await session.execute(stmt)
+
     return result.scalar_one_or_none()
 
 

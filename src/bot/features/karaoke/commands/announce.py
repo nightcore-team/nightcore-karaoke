@@ -15,7 +15,7 @@ from src.bot.features.karaoke.components import KaraokeView
 from src.infra.db.enums import KaraokeRegistrationStateEnum, KaraokeStateEnum
 from src.infra.db.operations import (
     create_karaoke,
-    get_karaoke,
+    get_karaoke_by_guild_id,
 )
 
 if TYPE_CHECKING:
@@ -64,7 +64,7 @@ class Announce(Cog):
 
         outcome = ""
         async with interaction.client.uow.start() as session:
-            karaoke = await get_karaoke(session, guild.id)
+            karaoke = await get_karaoke_by_guild_id(session, guild.id)
 
             if karaoke:
                 outcome = "already_announced"
