@@ -1,3 +1,36 @@
+## 0.5.0 (2026-03-11)
+
+### Feat
+
+- add vote command and related autocomplete functionality
+- add karaoke results button handler and view component
+- add karaoke close command
+- **db**: add registrations relation loading, update unique index in Karaoke model and reinit first migration
+- **karaoke**: implement karaoke registration modal and handlers
+- **karaoke**: add KaraokePariticipantsListView and global interaction handler for karaoke
+- **interaction**: add interaction events module with handling logic
+- **bot**: add utility functions for Discord object validation
+- **karaoke**: create karaoke feature module with components
+- **karaoke**: add registration status management command
+- **karaoke**: add karaoke announcement command
+- **bot**: add error handling for app commands
+- **db**: add karaoke database operations and utilities
+- **db**: update karaoke model with localization and new fields
+- **migrations**: add initial database migration setup and configuration
+- **docker**: update Docker configuration for nightcore-karaoke project
+
+### Fix
+
+- set karaoke state to GOING when opening registration
+- **karaoke**: improve setstaff command with localization and UX
+
+### Refactor
+
+- **karaoke**: rename get_karaoke to get_karaoke_by_guild_id and add selectin loading to registrations relationship
+- **config**: reorganize imports for better structure
+- **config**: remove obsolete RAILWAY_DATABASE_URL alias
+- **client**: simplify user property in NightcoreKaraoke class
+
 ## 0.4.0 (2026-03-04)
 
 ### Feat
