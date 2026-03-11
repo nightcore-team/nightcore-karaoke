@@ -119,11 +119,11 @@ async def delete_staff(
 
 
 async def get_karaoke_by_guild_id(
-    session: AsyncSession, guild_id: int
+    session: AsyncSession, guild_id: int, with_registrations: bool = False
 ) -> Karaoke | None:
     """Get a karaoke for a specific guild."""
 
-    result = await session.execute(
+    stmt = (
         select(Karaoke)
         .where(
             Karaoke.guild_id == guild_id,
@@ -132,6 +132,11 @@ async def get_karaoke_by_guild_id(
         .order_by(Karaoke.updated_at.desc())
         .limit(1)
     )
+    if with_registrations:
+        stmt = stmt.options(selectinload(Karaoke.registrations))
+
+    result = await session.execute(stmt)
+
     return result.scalar_one_or_none()
 
 

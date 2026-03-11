@@ -24,7 +24,9 @@ class Karaoke(BaseIdTimeStampModel, GuildIdMixin):
             "uq_karaoke_guild_active",
             "guild_id",
             unique=True,
-            postgresql_where=text("state <> 'finished'"),
+            postgresql_where=text(
+                f"state <> '{KaraokeStateEnum.FINISHED.value}'"
+            ),
         ),
     )
 
