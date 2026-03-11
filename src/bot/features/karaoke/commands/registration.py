@@ -19,7 +19,7 @@ from src.bot.utils.object import (
     ensure_message_exists,
     ensure_messageable_channel_exists,
 )
-from src.infra.db.enums import KaraokeRegistrationStateEnum
+from src.infra.db.enums import KaraokeRegistrationStateEnum, KaraokeStateEnum
 from src.infra.db.operations import get_karaoke_by_guild_id
 from src.infra.db.utils import cast_karaoke_model
 
@@ -71,6 +71,7 @@ async def announce(
                     status
                 )
                 karaoke.registration_state = karaoke_registration_state
+                karaoke.state = KaraokeStateEnum.GOING
 
                 outcome = "success"
 
