@@ -96,7 +96,7 @@ class KaraokeView(LayoutView):
                     label="Результаты участников",
                     custom_id=f"karaoke:results:{self.karaoke_id}",
                     style=ButtonStyle.secondary,
-                    emoji="<:vote:1480954494354194473>",
+                    emoji="<:best:1481264243520311296>",
                 ),
             )
 
