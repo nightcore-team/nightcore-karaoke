@@ -2,11 +2,15 @@
 
 import contextlib
 import logging
-from typing import TYPE_CHECKING, cast
+from typing import TYPE_CHECKING
 
-from discord import Guild, Interaction, app_commands
+from discord import Interaction, app_commands
 
-from src.infra.db.operations import get_karaoke_by_guild_id
+from src.bot.utils.object import cast_guild
+from src.infra.db.operations import (
+    get_karaoke_by_guild_id,
+    get_karaokes_by_guild_id,
+)
 
 if TYPE_CHECKING:
     from src.bot.client import NightcoreKaraoke
@@ -25,7 +29,7 @@ async def vote_registration_autocomplete(
     This function demonstrates how to use the value of one argument ('user')
     to filter the choices of another argument ('registration_id').
     """  # noqa: E501
-    guild = cast(Guild, interaction.guild)
+    guild = cast_guild(interaction.guild)
     if not guild:
         return []
 
@@ -86,5 +90,39 @@ async def vote_registration_autocomplete(
                 value="error_no_registrations",
             )
         ]
+
+    return choices
+
+
+async def karaoke_autocomplete(
+    interaction: Interaction["NightcoreKaraoke"],
+    current: str,
+) -> list[app_commands.Choice[str]]:
+    """Autocomplete for selecting a karaoke by name."""
+    guild = cast_guild(interaction.guild)
+
+    choices: list[app_commands.Choice[str]] = []
+
+    async with interaction.client.uow.start() as session:
+        karaokes = await get_karaokes_by_guild_id(session, guild.id)
+
+        if karaokes:
+            filtered_karaokes = [
+                k for k in karaokes if current.lower() in k.name.lower()
+            ]
+
+            for karaoke in filtered_karaokes[:25]:
+                choices.append(
+                    app_commands.Choice(
+                        name=karaoke.name, value=str(karaoke.id)
+                    )
+                )
+        else:
+            choices.append(
+                app_commands.Choice(
+                    name="Нет доступных караоке",
+                    value="error_no_karaoke",
+                )
+            )
 
     return choices

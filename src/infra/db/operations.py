@@ -119,6 +119,17 @@ async def delete_staff(
     return True
 
 
+async def get_karaokes_by_guild_id(
+    session: AsyncSession, guild_id: int
+) -> list[Karaoke]:
+    """Get all karaokes for a specific guild."""
+
+    result = await session.execute(
+        select(Karaoke).where(Karaoke.guild_id == guild_id)
+    )
+    return result.scalars().all()  # type: ignore
+
+
 async def get_karaoke_by_guild_id(
     session: AsyncSession, guild_id: int, with_registrations: bool = False
 ) -> Karaoke | None:
