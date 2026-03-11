@@ -18,6 +18,7 @@ __all__ = ("registration", "registration_group")
 
 COGS = [
     "src.bot.features.karaoke.commands.setstaff",
+    "src.bot.features.karaoke.commands.vote",
     "src.bot.features.karaoke.commands.announce",
     "src.bot.features.karaoke.commands.close",
     "src.bot.features.karaoke",

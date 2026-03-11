@@ -218,3 +218,56 @@ async def get_karaoke_results(
     result = await session.execute(stmt)
 
     return result.all()  # type: ignore
+
+
+async def get_registration_by_id(
+    session: AsyncSession, registration_id: int
+) -> Registration | None:
+    """Get a registration by its ID."""
+
+    result = await session.execute(
+        select(Registration).where(Registration.id == registration_id)
+    )
+    return result.scalar_one_or_none()
+
+
+async def get_rating_for_registration(
+    session: AsyncSession,
+    karaoke_id: int,
+    registration_id: int,
+    judge_id: int,
+) -> Rating | None:
+    """Get a rating for a specific registration from a specific judge."""
+
+    result = await session.execute(
+        select(Rating).where(
+            Rating.karaoke_id == karaoke_id,
+            Rating.registration_id == registration_id,
+            Rating.judge_id == judge_id,
+        )
+    )
+    return result.scalar_one_or_none()
+
+
+async def create_rating(
+    session: AsyncSession,
+    guild_id: int,
+    karaoke_id: int,
+    registration_id: int,
+    user_id: int,
+    judge_id: int,
+    score: int,
+) -> Rating:
+    """Create a rating for a karaoke registration."""
+
+    rating = Rating(
+        guild_id=guild_id,
+        karaoke_id=karaoke_id,
+        registration_id=registration_id,
+        user_id=user_id,
+        judge_id=judge_id,
+        score=score,
+    )
+    session.add(rating)
+
+    return rating
