@@ -1,6 +1,6 @@
 """Database operations module."""
 
-from sqlalchemy import select
+from sqlalchemy import desc, func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 
@@ -10,6 +10,7 @@ from .models import (
     GuildKaraokeConfig,
     GuildPermissionsConfig,
     Karaoke,
+    Rating,
     Registration,
     Staff,
 )
@@ -197,3 +198,23 @@ async def create_karaoke_registration(
     session.add(registration)
 
     return registration
+
+
+async def get_karaoke_results(
+    session: AsyncSession, karaoke_id: int
+) -> list[tuple[Registration, float]]:
+    """Get the calculated average score for each registration in a karaoke session.
+
+    Returns:
+        A list of tuples with the registration and the average score.
+    """  # noqa: E501
+    stmt = (
+        select(Registration, func.avg(Rating.score).label("average_score"))
+        .join(Rating, Rating.registration_id == Registration.id)
+        .where(Registration.karaoke_id == karaoke_id)
+        .group_by(Registration.id)
+        .order_by(desc("average_score"))
+    )
+    result = await session.execute(stmt)
+
+    return result.all()  # type: ignore

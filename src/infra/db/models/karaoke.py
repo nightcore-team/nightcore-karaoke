@@ -64,6 +64,7 @@ class Karaoke(BaseIdTimeStampModel, GuildIdMixin):
     ratings: Mapped[list["Rating"]] = relationship(
         back_populates="karaoke",
         cascade="all, delete-orphan",
+        lazy="selectin",
     )
     registrations: Mapped[list["Registration"]] = relationship(
         back_populates="karaoke",

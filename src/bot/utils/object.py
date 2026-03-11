@@ -1,7 +1,7 @@
 """Discord-related object utilities."""
 
 import logging
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, cast
 
 from discord import Guild, Message, Thread
 from discord.abc import GuildChannel, Messageable
@@ -106,3 +106,13 @@ async def ensure_message_exists(
         return None
 
     return message  # type: ignore
+
+
+def cast_guild(value: object) -> Guild:
+    """Cast a value to a Guild, if possible."""
+    return cast(Guild, value)
+
+
+def cast_message(value: object) -> Message:
+    """Cast a value to a Message, if possible."""
+    return cast(Message, value)

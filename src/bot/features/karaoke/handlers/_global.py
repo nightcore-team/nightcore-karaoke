@@ -4,7 +4,11 @@ from typing import TYPE_CHECKING
 
 from discord import Interaction
 
-from .button import handle_participants_button, handle_registration_button
+from .button import (
+    handle_participants_button,
+    handle_registration_button,
+    handle_results_button,
+)
 from .modal import handle_registration_modal_submit
 
 if TYPE_CHECKING:
@@ -37,6 +41,9 @@ async def global_karaoke_handler(
                     await handle_registration_modal_submit(
                         interaction, int(karaoke_id)
                     )
+
+                case "results":
+                    await handle_results_button(interaction, int(karaoke_id))
 
                 case _:
                     ...
