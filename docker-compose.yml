@@ -29,8 +29,6 @@ services:
         - action: rebuild
           path: ./app/pyproject.toml
 
-    ports:
-      - "${BOT_PORT}:${BOT_PORT}"
     restart: on-failure
 
     volumes:
