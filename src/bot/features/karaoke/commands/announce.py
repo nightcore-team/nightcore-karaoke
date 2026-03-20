@@ -103,7 +103,7 @@ class Announce(Cog):
             )
 
             try:
-                await interaction.channel.send(f"{guild.default_role.mention}")  # type: ignore
+                await interaction.channel.send(f"<@&{guild.default_role.id}>")  # type: ignore
                 message = await cast(TextChannel, interaction.channel).send(
                     view=view.build()
                 )
