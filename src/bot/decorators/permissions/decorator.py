@@ -179,19 +179,34 @@ async def _check_user_permission(
         )
 
     if permissions == PermissionFlagEnum.HOST_ACCESS:
-        async with interaction.client.uow.start(readonly=True) as session:
-            user_role = await get_user_staff_role(
-                session, guild.id, interaction.user.id
-            )
-
+        user_role = await _get_staff_role(interaction)
         return user_role == KaraokeRoleEnum.HOST
 
     if permissions == PermissionFlagEnum.JUDGE_ACCESS:
-        async with interaction.client.uow.start(readonly=True) as session:
-            user_role = await get_user_staff_role(
-                session, guild.id, interaction.user.id
-            )
+        user_role = await _get_staff_role(interaction)
 
         return user_role in (KaraokeRoleEnum.JUDGE, KaraokeRoleEnum.HOST)
 
     return False
+
+
+async def _get_staff_role(
+    interaction: Interaction[NightcoreKaraoke],
+) -> KaraokeRoleEnum | None:
+    """Get user's staff role in the guild.
+
+    Args:
+        interaction: Discord interaction
+
+    Returns:
+        User's staff role or None if user is not staff
+    """
+
+    guild = cast(Guild, interaction.guild)
+
+    async with interaction.client.uow.start(readonly=True) as session:
+        user_role = await get_user_staff_role(
+            session, guild.id, interaction.user.id
+        )
+
+    return user_role
