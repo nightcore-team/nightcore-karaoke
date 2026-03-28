@@ -1,3 +1,13 @@
+## 0.6.0 (2026-03-28)
+
+### Feat
+
+- refactor permission checks to use dedicated staff role retrieval function
+- update announce command to use role mention format
+- update announce command to mention the default role instead of the user
+- update environment configuration for PostgreSQL integration and remove useless port forwarding
+- add karaoke rating command and autocomplete functionality
+
 ## 0.5.0 (2026-03-11)
 
 ### Feat
