@@ -6,6 +6,7 @@ import time
 from datetime import datetime, timezone
 
 import discord
+import discordhealthcheck  # type: ignore
 from aiohttp import TCPConnector
 from discord import ClientUser, app_commands
 from discord.ext.commands import Bot  # type: ignore
@@ -75,6 +76,9 @@ class NightcoreKaraoke(Bot):
     async def load_extensions(self) -> None:
         """Load all bot extensions (cogs)."""
         logger.info("Starting to load extensions...")
+
+        logger.info("Running discord health check...")
+        self.healthcheck_server = await discordhealthcheck.start(self)
 
         if self.cog_modules:
             for module in self.cog_modules:

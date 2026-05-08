@@ -526,6 +526,18 @@ wheels = [
 ]
 
 [[package]]
+name = "discordhealthcheck"
+version = "0.1.1"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "discord-py" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/95/53/6bfb908bcde047e0b010f850e3b0dddd63965de61118824b0bf195634bd4/discordhealthcheck-0.1.1.tar.gz", hash = "sha256:6772cfb9ce4437773b5ce1bdfb018c2bd380ae2ead49d7f07ed789a92f79b7fc", size = 4841, upload-time = "2022-12-14T01:25:56.282Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/f7/7e/0f067c2af8586ebd4d280bb1d68b387afd4062dce2e8a8fa8abbf10d4499/discordhealthcheck-0.1.1-py3-none-any.whl", hash = "sha256:94f4b380dd7942a28dc99bb559ffe4b48285b4fd5cb8f3a553fe05de7c127c54", size = 5415, upload-time = "2022-12-14T01:25:53.871Z" },
+]
+
+[[package]]
 name = "distlib"
 version = "0.4.0"
 source = { registry = "https://pypi.org/simple" }
@@ -1026,6 +1038,7 @@ dependencies = [
     { name = "asyncpg" },
     { name = "colorlog" },
     { name = "discord-py" },
+    { name = "discordhealthcheck" },
     { name = "environs" },
     { name = "pydantic-settings" },
     { name = "sqlalchemy", extra = ["asyncio"] },
@@ -1045,6 +1058,7 @@ requires-dist = [
     { name = "asyncpg", specifier = ">=0.31.0" },
     { name = "colorlog", specifier = ">=6.10.1" },
     { name = "discord-py", specifier = ">=2.6.4" },
+    { name = "discordhealthcheck", specifier = ">=0.1.1" },
     { name = "environs", specifier = ">=14.2.0" },
     { name = "pydantic-settings", specifier = ">=2.13.0" },
     { name = "sqlalchemy", extras = ["asyncio"], specifier = ">=2.0.47" },
